@@ -87,19 +87,17 @@ class OOVNgrams:
         return contexts
 
     def left_context(self, ngrams):
-        pass
+        ngrams_docs = self.split_ngrams(ngrams)
+
+        return [doc[0] for doc in ngrams_docs]
     
     def right_context(self, ngrams):
-        pass
+        ngrams_docs = self.split_ngrams(ngrams)
+
+        return [doc[-1] for doc in ngrams_docs]
 
     def oov_context(self, ngrams):
-        pass
+        ngrams_docs = self.split_ngrams(ngrams)
 
-    def padding(self, docs):
-        pass
-
-    def token2idx(self, tokens):
-        pass
-
-    def idx2token(self, idxs):
-        pass
+        return [doc[1] for doc in ngrams_docs]
+        

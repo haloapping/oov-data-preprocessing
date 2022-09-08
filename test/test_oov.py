@@ -4,6 +4,7 @@ from os import path
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from oov_ngrams_testcases import OOVNgramsTestCases
 from split_oov_ngrams_testcases import SplitOOVNgramsTestCases
+from context_oov_ngrams_testcases import ContextOOVNgramsTestCases
 from ngrams.oov_ngrams import OOVNgrams
 
 
@@ -139,6 +140,34 @@ class SplitOOVNGgramsTest(unittest.TestCase):
         self.assertEqual(
             oov_ngrams.split_ngrams(test_cases.case_5["ngrams"]),
             test_cases.case_5["expected"]
+        )
+
+class ContextNGgramsTest(unittest.TestCase):
+    def test_if_get_left_context(self):
+        test_cases = ContextOOVNgramsTestCases()
+        oov_ngrams = OOVNgrams()
+        ngrams = oov_ngrams.create_ngrams(test_cases.case_1["docs"], context_size=3)
+        self.assertEqual(
+            oov_ngrams.left_context(ngrams),
+            test_cases.case_1["expected"]
+        )
+
+    def test_if_get_right_context(self):
+        test_cases = ContextOOVNgramsTestCases()
+        oov_ngrams = OOVNgrams()
+        ngrams = oov_ngrams.create_ngrams(test_cases.case_2["docs"], context_size=3)
+        self.assertEqual(
+            oov_ngrams.right_context(ngrams),
+            test_cases.case_2["expected"]
+        )
+
+    def test_if_get_oov_context(self):
+        test_cases = ContextOOVNgramsTestCases()
+        oov_ngrams = OOVNgrams()
+        ngrams = oov_ngrams.create_ngrams(test_cases.case_3["docs"], context_size=3)
+        self.assertEqual(
+            oov_ngrams.oov_context(ngrams),
+            test_cases.case_3["expected"]
         )
 
 
