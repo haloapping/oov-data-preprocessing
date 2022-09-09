@@ -73,14 +73,23 @@ class OOVNgrams:
         return oov_docs
             
 
-    def split_ngrams(self, ngrams, lowercase_oov=True):
+    def split_ngrams(self, ngrams, lowercase=True, split_token=True):
         contexts = []
 
         for ngram in tqdm(ngrams):
             oov_idx = [idx for idx, token in enumerate(ngram) if token[1] is True][0]
+            
+            if lowercase:
+                oov_context = ngram[oov_idx][0].lower()
+            
+            if split_token:
+                oov_context = list(oov_context)
+            else:
+                oov_context = [oov_context]
+
             contexts.append(
                 ([token[0] for token in ngram[:oov_idx]],
-                list(ngram[oov_idx][0].lower()) if lowercase_oov else list(ngram[oov_idx][0]),
+                oov_context,
                 [token[0] for token in ngram[oov_idx + 1:]]
             ))
 
@@ -96,8 +105,8 @@ class OOVNgrams:
 
         return [doc[-1] for doc in ngrams_docs]
 
-    def oov_context(self, ngrams):
-        ngrams_docs = self.split_ngrams(ngrams)
+    def oov_context(self, ngrams, lowercase=True, split_token=True):
+        ngrams_docs = self.split_ngrams(ngrams, lowercase, split_token)
 
         return [doc[1] for doc in ngrams_docs]
         
